@@ -23,12 +23,16 @@ namespace Yucom.Controllers
         }
         
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult<List<Reservacion>>> get()
         {
             return await context.Reservaciones.ToListAsync();
         }
+
+
+
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
         public async Task<ActionResult> Post (ReservacionCreationDTO reservacionCreationDTO)
         {
             var ExisteBoleto = await context.Boletos.AnyAsync(x => x.Id == reservacionCreationDTO.IdBoleto);
@@ -50,7 +54,11 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         } 
+
+
+
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
         public async Task<ActionResult> Put (Reservacion reservacion, int id)
         {
             if (reservacion.Id != id)
@@ -68,7 +76,10 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
+
+
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Reservaciones.AnyAsync(x => x.Id == id);

@@ -12,8 +12,8 @@ using Yucom;
 namespace Yucom.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230129012555_Establecimiento")]
-    partial class Establecimiento
+    [Migration("20230205043925_Reservacion")]
+    partial class Reservacion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -15,7 +15,6 @@ namespace Yucom.Controllers
 {
     [ApiController]
     [Route("api/presentador")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PresentadorController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -26,6 +25,7 @@ namespace Yucom.Controllers
             this.mapper = mapper;
             this.context = context;
         }
+        
 
         [HttpGet("Paginación")]
         [AllowAnonymous]
@@ -36,6 +36,8 @@ namespace Yucom.Controllers
             var presentador = await queryable.OrderBy(presentador => presentador.Nombre).Paginar(paginacionDTO).ToListAsync();
             return mapper.Map<List<PresentadorCreationDTO>>(presentador);
         }
+
+
 
         [HttpGet("{Nombre}")]
         [AllowAnonymous]
@@ -49,7 +51,10 @@ namespace Yucom.Controllers
             return nombre;
         }
 
+
+
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Post([FromBody] PresentadorCreationDTO presentadorCreationDTO)
         {
             var existePresentador = await context.Presentadors.AnyAsync(x => x.Nombre == presentadorCreationDTO.Nombre);
@@ -64,7 +69,11 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
+
+
+
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")] 
         public async Task<ActionResult> Put(PresentadorCreationDTO presentadorCreationDTO, int id)
         {
             if (presentadorCreationDTO.Id != id)
@@ -84,7 +93,9 @@ namespace Yucom.Controllers
             return Ok();
         }
 
+
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")] 
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Presentadors.AnyAsync(x => x.Id == id);

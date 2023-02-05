@@ -22,12 +22,15 @@ namespace Yucom.Controllers
         }
         
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
         public async Task<ActionResult<List<Asiento>>> get()
         {
             return await context.Asientos.ToListAsync();
         }
+
+
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Post (Asiento asiento)
         {
             var ExisteAsiento = await context.Asientos.AnyAsync(x => x.Numero == asiento.Numero);
@@ -39,7 +42,10 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         } 
+
+
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Put (Asiento asiento, int id)
         {
             if (asiento.Id != id)
@@ -58,6 +64,7 @@ namespace Yucom.Controllers
             return Ok();
         }
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Asientos.AnyAsync(x => x.Id == id);

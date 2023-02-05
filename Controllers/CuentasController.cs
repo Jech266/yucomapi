@@ -38,7 +38,7 @@ namespace Yucom.Controllers
 
             if (resultado.Succeeded)
             {
-                return ConstruirToken(credencialesUsuario);
+                return await ConstruirToken(credencialesUsuario);
             }
             else
             {
@@ -54,19 +54,22 @@ namespace Yucom.Controllers
 
             if (resultado.Succeeded)
             {
-                return ConstruirToken(credencialesUsuario);
+                return await ConstruirToken(credencialesUsuario);
             }
             else
             {
                 return BadRequest("Login incorrecto");
             }
         }
-        private RespuestaAutenticacion ConstruirToken(CredencialesUsuario credencialesUsuario)
+        private async Task<RespuestaAutenticacion> ConstruirToken(CredencialesUsuario credencialesUsuario)
         {
             var claims = new List<Claim>()
             {
                 new Claim("email", credencialesUsuario.Email)
             };
+            var usuario = await UserManager.FindByEmailAsync(credencialesUsuario.Email);
+            var claimDB = await UserManager.GetClaimsAsync(usuario);
+            claims.AddRange(claimDB);
             var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["llavejwt"]));
             var creds = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
 
@@ -80,6 +83,24 @@ namespace Yucom.Controllers
                 Token = new JwtSecurityTokenHandler().WriteToken(SecurityToken),
                 Expiracion = expiracion
             };
+        }
+
+
+        [HttpPost("Administrador")]
+        public async Task<ActionResult> Administrador(AdministradorDTO administradorDTO)
+        {
+            var usuario = await UserManager.FindByEmailAsync(administradorDTO.Email);
+            await UserManager.AddClaimAsync(usuario, new Claim("Administrador", "1"));
+            return NoContent();
+        }
+
+
+        [HttpPost("RemoverAdministrador")]
+        public async Task<ActionResult> RemoverAdministrador(AdministradorDTO administradorDTO)
+        {
+            var usuario = await UserManager.FindByEmailAsync(administradorDTO.Email);
+            await UserManager.RemoveClaimAsync(usuario, new Claim("Administrador", "1"));
+            return NoContent();
         }
     }
 }

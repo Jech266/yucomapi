@@ -23,12 +23,16 @@ namespace Yucom.Controllers
         }
         
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult<List<Boleto>>> get()
         {
             return await context.Boletos.ToListAsync();
         }
+
+
+
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Post (BoletoCreationDTO boletoCreationDTO)
         {
             var ExisteBoleto = await context.Boletos.AnyAsync(x => x.Id == boletoCreationDTO.Id);
@@ -40,7 +44,11 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         } 
+
+
+
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Put (Boleto boleto, int id)
         {
             if (boleto.Id != id)
@@ -59,6 +67,8 @@ namespace Yucom.Controllers
             return Ok();
         }
         [HttpDelete("{id:int}")]
+        
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Boletos.AnyAsync(x => x.Id == id);

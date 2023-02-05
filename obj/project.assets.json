@@ -3959,11 +3959,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jorge\\Desktop\\Yucom\\Yucom.csproj",
+      "projectUniqueName": "C:\\Users\\jorge\\Api\\yucomap-\\Yucom.csproj",
       "projectName": "Yucom",
-      "projectPath": "C:\\Users\\jorge\\Desktop\\Yucom\\Yucom.csproj",
+      "projectPath": "C:\\Users\\jorge\\Api\\yucomap-\\Yucom.csproj",
       "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jorge\\Desktop\\Yucom\\obj\\",
+      "outputPath": "C:\\Users\\jorge\\Api\\yucomap-\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config",

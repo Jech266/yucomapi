@@ -15,7 +15,6 @@ namespace Yucom.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EstablecimientoController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -49,6 +48,7 @@ namespace Yucom.Controllers
             return NombreEstablecimiento;
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Post([FromBody]EstablecimientoCreationDTO establecimientoCreationDTO)
         {
             var existeEstablecimiento = await context.Establecimientos.AnyAsync(x => x.Nombre == establecimientoCreationDTO.Nombre);
@@ -64,6 +64,7 @@ namespace Yucom.Controllers
             return Ok();
         }
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Adminitrador")]
         public async Task<ActionResult> Put(EstablecimientoCreationDTO establecimientoCreationDTO, int id)
         {
             if (establecimientoCreationDTO.Id != id)
@@ -84,6 +85,7 @@ namespace Yucom.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Establecimientos.AnyAsync(x => x.Id == id);
@@ -95,13 +97,5 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
-
-        /*[HttpPost("Eventos")]
-        public async Task<ActionResult> Post(Eventos eventos)
-        {
-            context.Add(eventos);
-            await context.SaveChangesAsync();
-            return Ok();
-        }*/
     }
 }

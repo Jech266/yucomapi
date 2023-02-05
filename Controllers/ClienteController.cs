@@ -20,8 +20,9 @@ namespace Yucom.Controllers
             this.context = context;
         }
 
+
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult<Cliente>> Get(string Usuario)
         {
             var ExisteUsuario = await context.Clientes.FirstOrDefaultAsync(x => x.Usuario.Contains(Usuario));
@@ -32,7 +33,9 @@ namespace Yucom.Controllers
             return ExisteUsuario;
         }
 
+
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> Post(Cliente cliente)
         {
             var ExisteUsuario = await context.Clientes.AnyAsync(x => x.Usuario == cliente.Usuario);
@@ -46,7 +49,9 @@ namespace Yucom.Controllers
             return Ok();
         }
 
+
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Put(Cliente cliente, int id)
         {
             if (cliente.Id != id)
@@ -65,7 +70,9 @@ namespace Yucom.Controllers
             return Ok();
         }
 
+
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.Clientes.AnyAsync(x => x.Id == id);
@@ -77,10 +84,5 @@ namespace Yucom.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
-        /*[HttpGet("Eventos")]   //Lista de eventos
-        public async Task<ActionResult<List<Evento>>> Get()
-        {
-            return await context.Eventos.ToListAsync();
-        }*/
     }
 }

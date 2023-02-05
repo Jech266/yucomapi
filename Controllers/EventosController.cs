@@ -36,13 +36,14 @@ namespace Yucom.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Evento>> Get(int id)
         {
             return await context.Eventos.Include(x => x.presentador).Include(c => c.establecimiento).FirstOrDefaultAsync(a => a.Id == id);
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
         public async Task<ActionResult> Post (EventosCreationDTO eventosCreationDTO)
         {
             var existeComediante = await context.Presentadors.AnyAsync(x => x.Id == eventosCreationDTO.IdPresentador);

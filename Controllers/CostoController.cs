@@ -13,6 +13,7 @@ namespace Yucom.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Administrador")]
     public class CostoController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -23,7 +24,6 @@ namespace Yucom.Controllers
         }
         
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<Costo>>> get()
         {
             return await context.Costos.ToListAsync();

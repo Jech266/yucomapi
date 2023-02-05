@@ -71,6 +71,9 @@ namespace Yucom
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddAuthorization(opciones => {
+                opciones.AddPolicy("Administrador", politica => politica.RequireClaim("administrador"));
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

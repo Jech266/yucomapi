@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QoVNjYcYZ1XHLjn9TpPzp4OlfBPysoRYExSyLzAgdWk3JeC52SJbkzHmhWAADGg0FPCdcEkG839t9XLaFVfGrw==",
+  "dgSpecHash": "Mfg39VonEwZcJaW5tSesOLq8G70vWFNXNCw7r7/ohW5OKh+QlzpMw39HWraIn8WEurpH3CbJMrGBv5PIxm6rmA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jorge\\Desktop\\Yucom\\Yucom.csproj",
+  "projectFilePath": "C:\\Users\\jorge\\Api\\yucomap-\\Yucom.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jorge\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\jorge\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
